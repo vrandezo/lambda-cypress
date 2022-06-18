@@ -253,7 +253,7 @@ describe('Negation: Connect testers', () => {
 })
 
 
-// TODO: Negation - Implementation composition
+// Negation - Implementation composition
 
 describe('Negation: Implementation composition', () => {
   it('tab details', () => {
@@ -618,7 +618,173 @@ describe('Positive Integer: Create number one', () => {
 
 // TODO: Positive Integer validator
 
-// TODO: Function Positive Integer as String
+// Function Positive Integer as String
+
+// Positive integer to string - Function definition
+
+const pitsname = 'positive integer to string ' + intname
+let pitszid = ''
+
+describe('Positive Integer to String: Create definition', () => {
+  it('loads', () => {
+    cy.visit(domain + 'Special:CreateZObject')
+  })
+  it('create a function', () => {
+    cy.get('#ext-wikilambda-editor > :nth-child(3)')
+    .click()
+  })
+  it('give it a name', () => {
+    cy.get('#ext-wikilambda-function-definition-name__input')
+    .type(pitsname)
+  })
+  it('choose input type', () => {
+    cy.get('.ext-wikilambda-editor-input-list-item__body > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('choose output type', () => {
+    cy.get('.ext-wikilambda-function-definition-output > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type('String')
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('publish', () => {
+    cy.get('.cdx-button--action-progressive')
+    .click()
+  })
+  it('creation succeeded', () => {
+    cy.url().should('contains', domain + 'Z')
+    cy.location().should((loc) => {
+      const s = loc.toString()
+      pitszid = s.substr(s.lastIndexOf('Z'))
+    })
+  })
+})
+
+// TODO: Positive Integer to String - Testers
+
+// TODO: Tester for literal
+
+// TODO: Tester for reference
+
+// TODO: Positive Integer to String - Connect testers
+
+// Positive Integer to String - Implementation composition
+
+describe('Positive Integer to String: Implementation composition', () => {
+  it('tab details', () => {
+    cy.get('#cdx-function-details-1-label > a')
+    .click()
+  })
+  it('create implementation', () => {
+    cy.get('#cdx-function-details-1 > .ext-wikilambda-function-details > :nth-child(2) > .ext-wikilambda-function-details__sidebar > .ext-wikilambda-function-viewer-details-sidebar > .ext-wikilambda-function-viewer-details-sidebar__links > .ext-wikilambda-function-viewer-details-sidebar__link > #ext-wikilambda-function-viewer-details-sidebar__link--implementation')
+    .click()
+  })
+  it('name implementation', () => {
+    cy.get('span > .ext-wikilambda-zstring')
+    .wait(2000)
+    .type(pitsname)
+    .type(' composition')
+    .type('{enter}')
+  })
+  it('select function', () => {
+    cy.get('[type="Z14"] > :nth-child(1) > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(pitszid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('function key by value', () => {
+    cy.get('.ext-wikilambda-function-call-block > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type('Z803')
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('enter key id', () => {
+    cy.get('.ext-wikilambda-zobject > div.ext-wikilambda-zstring > span > .ext-wikilambda-zstring')
+    .wait(1000)
+    .type(String(intzid) + 'K1')
+    .type('{enter}')
+  })
+  it('type for argument', () => {
+    cy.get('.ext-wikilambda-zobject-key > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('set argument reference', () => {
+    cy.get(':nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zkey-modeselector')
+    .select('arg')
+  })
+  it('set reference', () => {
+    cy.get('.ext-wikilambda-zargument-reference')
+    .select('input')
+  })
+  it('publish', () => {
+    cy.get('.ext-wikilambda-publishControl > .cdx-button')
+    .click()
+  })
+})
+
+// TODO: Positive Integer to String - Evaluate composition
+
+// CANNOT
+
+// Positive Integer to String - Connect implementations
+
+describe('Positive Integer to String: Connect implementations', () => {
+  it('go to function page', () => {
+    cy.get('[type="Z14"] > :nth-child(1) > .ext-wikilambda-zreference > span > .ext-wikilambda-referenced-type')
+    .click()
+  })
+  it('click edit', () => {
+    cy.get('#ca-edit > a > span')
+    .click()
+  })
+  it('fallback editor', () => {
+    cy.get('.ext-wikilambda-function-definition-footer__actions > .cdx-button--action-default')
+    .click()
+  })
+  it('add implementation', () => {
+    cy.get(':nth-child(3) > .ext-wikilambda-zlist-no-bullets > li > .cdx-button')
+    .click()
+  })
+  it('select implementation', () => {
+    cy.get('.ext-wikilambda-ZImplementationListItem > select')
+    .select(1)
+  })
+  it('save', () => {
+    cy.get('.ext-wikilambda-publishControl > .cdx-button')
+    .click()
+  })
+})
+
+// TODO: Positive Integer to String - Check test results
+
+// not implemented yet
+
+// Positive Integer to String - Evaluate
+
+describe('Positive Integer to String: Evaluate', () => {
+  it('select argument', () => {
+    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring')
+    .type('26')
+    .type('{enter}')
+  })
+  it('run', () => {
+    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > .cdx-button')
+    .click()
+  })
+  // TODO: The result is currently wrong. Once it works again, this test should be enabled
+  // it('check result', () => {
+  // cy.contains('aaaaa')
+  // })
+})
 
 // TODO: Function postive integer equality
 
