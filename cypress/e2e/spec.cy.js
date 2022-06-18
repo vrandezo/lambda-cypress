@@ -556,9 +556,9 @@ describe('Positive Integer: Create type', () => {
   })
 })
 
-// Create an instance of that type
+// Create instances of that type
 
-describe('Positive Integer: Create number one', () => {
+describe('Positive Integer: Create number zero', () => {
   it('loads', () => {
     cy.visit(domain + 'Special:CreateZObject')
   })
@@ -586,6 +586,37 @@ describe('Positive Integer: Create number one', () => {
     .click()
   })
 })
+
+describe('Positive Integer: Create number one', () => {
+  it('loads', () => {
+    cy.visit(domain + 'Special:CreateZObject')
+  })
+  it('give it a name', () => {
+    cy.get('span > .ext-wikilambda-zstring')
+    .wait(1000)
+    .type('one ' + intname)
+    .type('{enter}')
+  })
+  it('choose type key', () => {
+    cy.get('.ext-wikilambda-zobject-key > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('enter value', () => {
+    cy.get('.ext-wikilambda-zobject > div.ext-wikilambda-zstring > span > .ext-wikilambda-zstring')
+    .wait(1000)
+    .type('1')
+    .type('{enter}')
+  })
+  it('publish', () => {
+    cy.get('.ext-wikilambda-publishControl > .cdx-button')
+    .click()
+  })
+})
+
+// TODO: Positive Integer validator
 
 // TODO: Function Positive Integer as String
 
