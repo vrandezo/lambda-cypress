@@ -1,6 +1,4 @@
-const beta = 'https://wikifunctions.beta.wmflabs.org/wiki/'
-const local = 'http://localhost:8080/wiki/'
-let domain = local
+const domain = 'http://localhost:8080/wiki/'
 
 // check if the main page is there
 
