@@ -3,7 +3,7 @@ Sketch of smoke tests for the WikiLambda front-end
 
 ## Pre-requisites
 
-You need npm in a recent version.
+You need npm in a recent version, and WikiLambda running.
 
 Your WikiLambda installation should be available on http://localhost:8080/wiki/
 
@@ -22,3 +22,8 @@ npx cypress open
 (or to run it on the command line:)
 
 npx cypress run
+
+
+## Warnings
+
+Some tests are sometimes flaky. Better to rerun the tests before starting to debug.

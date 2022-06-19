@@ -970,27 +970,7 @@ describe('Positive Integer Equality: Connect implementations', () => {
 
 // Positive Integer Equality - Evaluate
 
-describe('Positive Integer Equality: Evaluate', () => {
-  it('select argument', () => {
-    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring')
-    .type('26783')
-    .type('{enter}')
-  })
-  it('select argument right', () => {
-    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring > span > .ext-wikilambda-zstring')
-    .type('26784')
-    .type('{enter}')
-  })
-  it('run', () => {
-    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > .cdx-button')
-    .click()
-  })
-  // TODO: The result is currently wrong. Once it works again, this test should be enabled
-  // it('check result', () => {
-  //   cy.get('.ext-wikilambda-zobject-key > .ext-wikilambda-zreference > span > .ext-wikilambda-referenced-type')
-  //   .should('contain', 'false')
-  // })
-})
+// CANNOT DO IT YET, the arguments don't show up
 
 // Function Successor
 
@@ -1382,4 +1362,225 @@ describe('Floored predecessor: Evaluate', () => {
 
 // TODO: Function predecessor
 
-// TODO: Function add
+// Function add
+
+// Add - Function definition
+
+const addname = 'add ' + intname
+let addzid = ''
+
+describe('Add: Create definition', () => {
+  it('loads', () => {
+    cy.visit(domain + 'Special:CreateZObject')
+  })
+  it('create a function', () => {
+    cy.get('#ext-wikilambda-editor > :nth-child(3)')
+    .click()
+  })
+  it('give it a name', () => {
+    cy.get('#ext-wikilambda-function-definition-name__input')
+    .type(addname)
+  })
+  it('choose input type', () => {
+    cy.get('.ext-wikilambda-editor-input-list-item__body > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('add a second argument', () => {
+    cy.get('.ext-wikilambda-editor-input-list-item__button')
+    .click()
+  })
+  it('choose second input type', () => {
+    cy.get(':nth-child(2) > .ext-wikilambda-editor-input-list-item__body > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('name second argument', () => {
+    cy.get(':nth-child(2) > .ext-wikilambda-editor-input-list-item__body > .ext-wikilambda-editor-input-list-item__input')
+    .type('right')
+  })
+  it('choose output type', () => {
+    cy.get('.ext-wikilambda-function-definition-output > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('publish', () => {
+    cy.get('.cdx-button--action-progressive')
+    .click()
+  })
+  it('creation succeeded', () => {
+    cy.url().should('contains', domain + 'Z')
+    cy.location().should((loc) => {
+      const s = loc.toString()
+      addzid = s.substr(s.lastIndexOf('Z'))
+    })
+  })
+})
+
+// TODO: Add - Testers
+
+// TODO: Tester for literal
+
+// TODO: Tester for reference, all pairs
+
+// TODO: Add - Connect testers
+
+// Add - Implementation composition
+
+describe('Add: Implementation composition', () => {
+  it('tab details', () => {
+    cy.get('#cdx-function-details-1-label > a')
+    .click()
+  })
+  it('create implementation', () => {
+    cy.get('#cdx-function-details-1 > .ext-wikilambda-function-details > :nth-child(2) > .ext-wikilambda-function-details__sidebar > .ext-wikilambda-function-viewer-details-sidebar > .ext-wikilambda-function-viewer-details-sidebar__links > .ext-wikilambda-function-viewer-details-sidebar__link > #ext-wikilambda-function-viewer-details-sidebar__link--implementation')
+    .click()
+  })
+  it('name implementation', () => {
+    cy.get('span > .ext-wikilambda-zstring')
+    .wait(2000)
+    .type(addname)
+    .type(' composition')
+    .type('{enter}')
+  })
+  it('select function', () => {
+    cy.get('[type="Z14"] > :nth-child(1) > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(addzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('function if', () => {
+    cy.get('.ext-wikilambda-function-call-block > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type('Z802')
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('set function call left', () => {
+    cy.get(':nth-child(1) > .ext-wikilambda-zobject-key > .ext-wikilambda-zkey-modeselector')
+    .select('f(x)')
+  })
+  it('function equivalent integer', () => {
+    cy.get('.ext-wikilambda-function-call-block > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(pieqzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('set to 0', () => {
+    cy.get(':nth-child(1) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring > span > .ext-wikilambda-zstring')
+    .type('0')
+    .type('{enter}')
+  })
+  it('set equal argument reference', () => {
+    cy.get(':nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zkey-modeselector')
+    .select('arg')
+  })
+  it('set reference left', () => {
+    cy.get('.ext-wikilambda-zargument-reference')
+    .select('inputright')
+  })
+  it('consequent type', () => {
+    cy.get(':nth-child(2) > .ext-wikilambda-zobject-key > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('set consequent to arg', () => {
+    cy.get('[parent-type=""] > :nth-child(3) > :nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zkey-modeselector')
+    .select('arg')
+  })
+  it('set consequence to input', () => {
+    cy.get('[parent-type=""] > :nth-child(3) > :nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div > .ext-wikilambda-zargument-reference')
+    .select('input')
+  })
+  it('alternative type', () => {
+    cy.get('.ext-wikilambda-zobject-key > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(intzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+  it('set consequent to arg', () => {
+    cy.get(':nth-child(3) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zkey-modeselector')
+    .select('f(x)')
+  })
+  it('function positive integer to string right', () => {
+    cy.get('.ext-wikilambda-function-call-block > .ext-wikilambda-select-zobject > .cdx-lookup > .cdx-text-input > .cdx-text-input__input')
+    .type(addzid)
+    .wait(1000)
+    .type('{downArrow}')
+    .type('{enter}')
+  })
+
+  // TODO: CANNOT, there are no argument slots shown!
+})
+
+// TODO: Add - Evaluate composition
+
+// CANNOT
+
+// Add - Connect implementations
+
+// describe('Add: Connect implementations', () => {
+//   it('go to function page', () => {
+//     cy.get('[type="Z14"] > :nth-child(1) > .ext-wikilambda-zreference > span > .ext-wikilambda-referenced-type')
+//     .click()
+//   })
+//   it('click edit', () => {
+//     cy.get('#ca-edit > a > span')
+//     .click()
+//   })
+//   it('fallback editor', () => {
+//     cy.get('.ext-wikilambda-function-definition-footer__actions > .cdx-button--action-default')
+//     .click()
+//   })
+//   it('add implementation', () => {
+//     cy.get(':nth-child(3) > .ext-wikilambda-zlist-no-bullets > li > .cdx-button')
+//     .click()
+//   })
+//   it('select implementation', () => {
+//     cy.get('.ext-wikilambda-ZImplementationListItem > select')
+//     .select(1)
+//   })
+//   it('save', () => {
+//     cy.get('.ext-wikilambda-publishControl > .cdx-button')
+//     .click()
+//   })
+// })
+
+// TODO: Add - Check test results
+
+// not implemented yet
+
+// Add - Evaluate
+
+// describe('Add: Evaluate', () => {
+//   it('select argument', () => {
+//     cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring')
+//     .type('1')
+//     .type('{enter}')
+//   })
+//   it('select argument right', () => {
+//     cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(2) > :nth-child(1) > :nth-child(4) > .ext-wikilambda-zobject-generic > .ext-wikilambda-zobject-key-list > li > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div.ext-wikilambda-zstring > span > .ext-wikilambda-zstring')
+//     .type('1')
+//     .type('{enter}')
+//   })
+//   it('run', () => {
+//     cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > .cdx-button')
+//     .click()
+//   })
+  // TODO: The result is currently wrong. Once it works again, this test should be enabled
+  // it('check result', () => {
+  //   cy.get('.ext-wikilambda-zobject-key > .ext-wikilambda-zreference > span > .ext-wikilambda-referenced-type')
+  //   .should('contain', 'false')
+  // })
+// })
