@@ -25,7 +25,8 @@ describe('If page', () => {
     cy.visit(domain + 'Z802')
   })
   it('boolean input', () => {
-    cy.get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(1) > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div > .ext-wikilambda-zboolean')
+    cy.wait(2000)
+    .get('#cdx-function-about-0 > .ext-wikilambda-function-about > .ext-wikilambda-function-about__details > :nth-child(1) > :nth-child(3) > .ext-wikilambda-function-call-block > :nth-child(2) > :nth-child(1) > .ext-wikilambda-zobject-key > .ext-wikilambda-zobject > div > .ext-wikilambda-zboolean')
     .select('true')
   })
   it('type second argument', () => {
